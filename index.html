@@ -4,50 +4,95 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+    <style>
+        body {
+  text-align: center;
+  background: #00ecb9;
+  font-family: sans-serif;
+  font-weight: 100;
+}
+
+.countdown-title {
+  color: #396;
+  font-weight: 100;
+  font-size: 40px;
+  margin: 40px 0px 20px;
+}
+
+.countdown {
+  font-family: sans-serif;
+  color: #fff;
+  display: inline-block;
+  font-weight: 100;
+  text-align: center;
+  font-size: 30px;
+}
+
+.countdown-number {
+  padding: 10px;
+  border-radius: 3px;
+  background: #00bf96;
+  display: inline-block;
+}
+
+.countdown-time {
+  padding: 15px;
+  border-radius: 3px;
+  background: #00816a;
+  display: inline-block;
+}
+
+.countdown-text {
+  display: block;
+  padding-top: 5px;
+  font-size: 16px;
+}
+    </style>
 <body>
-<script>
+<script type="text/javascript">
     function getTimeRemaining(endtime) {
-        var t = Date.parse(endtime) - Date.parse(new Date());
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(t / (1000 * 60 * 60 * 24));
-        return {
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return {
+    total: t,
+    days: days,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds
+  };
+}
+
+function initializeClock(id, endtime) {
+  var clock = document.getElementById(id);
+  var daysSpan = clock.querySelector(".days");
+  var hoursSpan = clock.querySelector(".hours");
+  var minutesSpan = clock.querySelector(".minutes");
+  var secondsSpan = clock.querySelector(".seconds");
+
+  function updateClock() {
+    var t = getTimeRemaining(endtime);
+
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+      var deadline = new Date(Date.parse(new Date()) + 6 * 1000);
+      initializeClock('countdown', deadline);
     }
 
-    function initializeClock(id, endtime) {
-        var clock = document.getElementById(id);
-        var daysSpan = clock.querySelector('.days');
-        var hoursSpan = clock.querySelector('.hours');
-        var minutesSpan = clock.querySelector('.minutes');
-        var secondsSpan = clock.querySelector('.seconds');
+    daysSpan.innerHTML = t.days;
+    hoursSpan.innerHTML = ("0" + t.hours).slice(-2);
+    minutesSpan.innerHTML = ("0" + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ("0" + t.seconds).slice(-2);
+  }
 
-        function updateClock() {
-            var t = getTimeRemaining(endtime);
+  updateClock();
+  var timeinterval = setInterval(updateClock, 1000);
+}
 
-            daysSpan.innerHTML = t.days;
-            hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-            minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-            secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-            if (t.total <= 0) {
-                clearInterval(timeinterval);
-            }
-        }
-
-        updateClock();
-        var timeinterval = setInterval(updateClock, 1000);
-    }
-
-    var deadline="January 01 2018 00:00:00 GMT+0300"; //for Ukraine
-    var deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000); // for endless timer
-    initializeClock('countdown', deadline);
+var deadline = new Date(Date.parse(new Date()) + 5 * 1000);
+initializeClock("countdown", deadline);
 </script>
 <h1 class="countdown-title">Countdown Clock</h1>
 <div id="countdown" class="countdown">
@@ -73,48 +118,5 @@ https://denis-creative.com/jstimer/
 https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/
 -->
 
-</body><style>
-    body {
-        text-align: center;
-        background: #00ecb9;
-        font-family: sans-serif;
-        font-weight: 100;
-    }
-
-    .countdown-title {
-        color: #396;
-        font-weight: 100;
-        font-size: 40px;
-        margin: 40px 0px 20px;
-    }
-
-    .countdown {
-        font-family: sans-serif;
-        color: #fff;
-        display: inline-block;
-        font-weight: 100;
-        text-align: center;
-        font-size: 30px;
-    }
-
-    .countdown-number {
-        padding: 10px;
-        border-radius: 3px;
-        background: #00bf96;
-        display: inline-block;
-    }
-
-    .countdown-time {
-        padding: 15px;
-        border-radius: 3px;
-        background: #00816a;
-        display: inline-block;
-    }
-
-    .countdown-text {
-        display: block;
-        padding-top: 5px;
-        font-size: 16px;
-    }
-</style>
+</body>
 </html>
